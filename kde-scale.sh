@@ -36,7 +36,7 @@ function main() {
   kwriteconfig5 --file kcmfonts --group General --key forceFontDPI "${font_dpi}"
 
   # Cursor size
-  sed -E "s/(Gtk\\/CursorThemeSize )[0-9]+/\\1${cursor_size}/" /home/nikolai/.config/xsettingsd/xsettingsd.conf
+  sed -Ei "s/(Gtk\\/CursorThemeSize )[0-9]+/\\1${cursor_size}/" /home/nikolai/.config/xsettingsd/xsettingsd.conf
 
   # VirtualBox VMs scale (VirtualBox must be shut down)
   if [ -f "${HOME}/.config/VirtualBox/VirtualBox.xml" ]; then
@@ -51,6 +51,10 @@ function main() {
     kwin --replace &
     plasmashell --replace &
   } &> /dev/null
+
+  echo "Success!" >&2
+  echo "Now you need to relogin to your account to apply changes!" >&2
+  return 0
 }
 
 main "$@"
