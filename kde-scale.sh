@@ -36,15 +36,19 @@ function main() {
   kwriteconfig5 --file kcmfonts --group General --key forceFontDPI "${font_dpi}"
 
   # Cursor size
-  sed -Ei "s/(Gtk\\/CursorThemeSize )[0-9]+/\\1${cursor_size}/" /home/nikolai/.config/xsettingsd/xsettingsd.conf
+  if [ -f "${HOME}/.config/xsettingsd/xsettingsd.conf" ]; then
+    sed -Ei "s/(^Gtk\\/CursorThemeSize )[0-9]+\$/\\1${cursor_size}/" "${HOME}/.config/xsettingsd/xsettingsd.conf"
+  fi
 
   # VirtualBox VMs scale (VirtualBox must be shut down)
   if [ -f "${HOME}/.config/VirtualBox/VirtualBox.xml" ]; then
     sed -Ei "s/(^.*?<ExtraDataItem name=\"GUI\\/ScaleFactor\" value=\").*?(\"\\/>\$)/\1${scale_factor}\2/" "${HOME}/.config/VirtualBox/VirtualBox.xml"
   fi
 
-  # TODO: Not sure if it is needed
-  # qdbus org.kde.KWin /KWin reconfigure
+  # Remmina clients scale
+  if [ -f "${HOME}/.config/remmina/remmina.pref" ]; then
+    sed -Ei "s/(^rdp_desktopScaleFactor=)[0-9]+\$/\\1${percents}/" "${HOME}/.config/remmina/remmina.pref"
+  fi
 
   # Restart UI
   {
