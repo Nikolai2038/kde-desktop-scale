@@ -36,23 +36,20 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
     return 1
   fi
 
-  local panel_size
-  panel_size="$(echo "${KDE_PANEL_SIZE_AT_100_PERCENTS}" "${percents}" | awk '{ print int($1 * $2 / 100); }')"
-  local cursor_size
-  cursor_size="$(echo "${KDE_CURSOR_SIZE_AT_100_PERCENTS}" "${percents}" | awk '{ print int($1 * $2 / 100); }')"
   local scale_factor
   scale_factor="$(echo "${KDE_SCALE_FACTOR_AT_100_PERCENTS}" "${percents}" | awk '{ print $1 * $2 / 100; }')"
   local font_dpi
   font_dpi="$(echo "${KDE_FONT_DPI_AT_100_PERCENTS}" "${percents}" | awk '{ print int($1 * $2 / 100); }')"
+  local panel_size
+  panel_size="$(echo "${KDE_PANEL_SIZE_AT_100_PERCENTS}" "${percents}" | awk '{ print int($1 * $2 / 100); }')"
+  local cursor_size
+  cursor_size="$(echo "${KDE_CURSOR_SIZE_AT_100_PERCENTS}" "${percents}" | awk '{ print int($1 * $2 / 100); }')"
 
   echo "Calculated values for ${percents}%:
-- panel_size = ${panel_size}
-- cursor_size = ${cursor_size}
 - scale_factor = ${scale_factor}
-- font_dpi = ${font_dpi}"
-
-  # Bottom panel size
-  "kwriteconfig${KDE_VERSION}" --file plasmashellrc --group PlasmaViews --group "Panel 2" --group Defaults --key thickness "${panel_size}"
+- font_dpi = ${font_dpi}
+- panel_size = ${panel_size}
+- cursor_size = ${cursor_size}"
 
   # Display scale
   "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScaleFactor "${scale_factor}"
@@ -60,6 +57,9 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
 
   # Font DPI
   "kwriteconfig${KDE_VERSION}" --file kcmfonts --group General --key forceFontDPI "${font_dpi}"
+
+  # Bottom panel size
+  "kwriteconfig${KDE_VERSION}" --file plasmashellrc --group PlasmaViews --group "Panel 2" --group Defaults --key thickness "${panel_size}"
 
   # Cursor size
   if [ -f "${HOME}/.config/xsettingsd/xsettingsd.conf" ]; then
