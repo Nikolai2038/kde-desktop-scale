@@ -76,12 +76,6 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
     sed -Ei "s/(^rdp_desktopScaleFactor=)[0-9]+\$/\\1${percents}/" "${HOME}/.config/remmina/remmina.pref"
   fi
 
-  # Restart UI
-  {
-    kwin --replace &
-    plasmashell --replace &
-  } &> /dev/null
-
   echo "Success!"
   echo "Now you need to relogin to your account to apply changes!"
   return 0
