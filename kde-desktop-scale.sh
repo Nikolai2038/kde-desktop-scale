@@ -57,10 +57,8 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
 
   # Display scale
   "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScaleFactor "${scale_factor}"
-  # For RDP connections
-  "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreensScaleFactors "rdp0=${scale_factor}"
-  # For VNC connections
-  "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreensScaleFactors "VNC-0=${scale_factor}"
+  # For RDP and VNC connections
+  "kreadconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreensScaleFactors "rdp0=${scale_factor};rdp1=${scale_factor};rdp2=${scale_factor};rdp3=${scale_factor};VNC-0=${scale_factor};VNC-1=${scale_factor};VNC-2=${scale_factor};VNC-3=${scale_factor}"
 
   # Font DPI
   "kwriteconfig${KDE_VERSION}" --file kcmfonts --group General --key forceFontDPI "${font_dpi}"
