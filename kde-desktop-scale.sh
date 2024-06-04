@@ -7,7 +7,6 @@ if [ -z "${KDE_VERSION}" ]; then
   KDE_VERSION=6
 fi
 
-KDE_PANEL_SIZE_AT_100_PERCENTS=44
 KDE_CURSOR_SIZE_AT_100_PERCENTS=24
 KDE_SCALE_FACTOR_AT_100_PERCENTS=1.0
 KDE_FONT_DPI_AT_100_PERCENTS=96
@@ -43,8 +42,6 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
   font_dpi="$(echo "${KDE_FONT_DPI_AT_100_PERCENTS}" "${percents}" | awk '{ print int($1 * $2 / 100); }')"
   local font_dpi_gtk
   font_dpi_gtk="$(echo "${KDE_FONT_DPI_GTK_AT_100_PERCENTS}" "${percents}" | awk '{ print int($1 * $2 / 100); }')"
-  local panel_size
-  panel_size="$(echo "${KDE_PANEL_SIZE_AT_100_PERCENTS}" "${percents}" | awk '{ print int($1 * $2 / 100); }')"
   local cursor_size
   cursor_size="$(echo "${KDE_CURSOR_SIZE_AT_100_PERCENTS}" "${percents}" | awk '{ print int($1 * $2 / 100); }')"
 
@@ -52,13 +49,12 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
 - scale_factor = ${scale_factor}
 - font_dpi = ${font_dpi}
 - font_dpi_gtk = ${font_dpi_gtk}
-- panel_size = ${panel_size}
 - cursor_size = ${cursor_size}"
 
   # Display scale
   "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScaleFactor "${scale_factor}"
   # For RDP and VNC connections
-  "kreadconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreensScaleFactors "rdp0=${scale_factor};rdp1=${scale_factor};rdp2=${scale_factor};rdp3=${scale_factor};VNC-0=${scale_factor};VNC-1=${scale_factor};VNC-2=${scale_factor};VNC-3=${scale_factor}"
+  "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreensScaleFactors "rdp0=${scale_factor};rdp1=${scale_factor};rdp2=${scale_factor};rdp3=${scale_factor};VNC-0=${scale_factor};VNC-1=${scale_factor};VNC-2=${scale_factor};VNC-3=${scale_factor}"
 
   # Font DPI
   "kwriteconfig${KDE_VERSION}" --file kcmfonts --group General --key forceFontDPI "${font_dpi}"
@@ -71,9 +67,6 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
   if [ -f "${HOME}/.config/gtk-4.0/settings.ini" ]; then
     sed -Ei "s/(^gtk-xft-dpi=)[0-9]+\$/\\1${font_dpi_gtk}/" "${HOME}/.config/gtk-4.0/settings.ini"
   fi
-
-  # Bottom panel size
-  "kwriteconfig${KDE_VERSION}" --file plasmashellrc --group PlasmaViews --group "Panel 2" --group Defaults --key thickness "${panel_size}"
 
   # Cursor size
   if [ -f "${HOME}/.config/xsettingsd/xsettingsd.conf" ]; then

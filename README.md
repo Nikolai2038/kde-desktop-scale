@@ -7,7 +7,6 @@ Bash script to scale KDE UI on X11. This script scales:
 - KDE UI:
   - Display scale;
   - Font DPI;
-  - Bottom panel size;
   - Cursor size.
 - Extra programs, if installed:
   - VirtualBox (VMs);
