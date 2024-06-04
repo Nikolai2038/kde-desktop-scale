@@ -37,6 +37,8 @@ If you are using KDE 5, set `KDE_VERSION=5` environment variable or pass it like
 KDE_VERSION=5 kde-desktop-scale <percentage>
 ```
 
+I am testing this script on KDE 6, so some things need to be reviewed for KDE 5 support.
+
 ## 5. Example
 
 Scale UI to the `150%`:
