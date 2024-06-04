@@ -17,7 +17,7 @@ Bash script to scale KDE UI on X11. This script scales:
 
 - KDE running X11.
 
-## 3. Installation
+## 3. Installation / Update
 
 ```bash
 { curl --fail --silent https://raw.githubusercontent.com/Nikolai2038/kde-desktop-scale/main/kde-desktop-scale.sh | sudo tee /usr/bin/kde-desktop-scale; } > /dev/null && \
