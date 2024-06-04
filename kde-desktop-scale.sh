@@ -22,10 +22,10 @@ fi
 # Scales KDE interface and some X11 programs to the specified percents.
 # KDE needs to be restarted after that.
 # It is good to apply scaling before starting KDE.
-function kde_scale() {
+function main() {
   local percents="${1}" && { shift || true; }
   if [ -z "${percents}" ]; then
-    echo "Usage: kde_scale <percents>
+    echo "Usage: kde-desktop-scale <percents>
 Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
     return 1
   elif [ "${percents}" -lt "${MIN_PERCENTS}" ]; then
@@ -87,4 +87,4 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
   return 0
 }
 
-kde_scale "$@"
+main "$@"
