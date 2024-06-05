@@ -51,7 +51,9 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
 - font_dpi_gtk = ${font_dpi_gtk}
 - cursor_size = ${cursor_size}"
 
+  # ========================================
   # Display scale
+  # ========================================
   "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScaleFactor "${scale_factor}"
   # RDP, VNC and X11 screens
   "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreenScaleFactors " \
@@ -75,8 +77,11 @@ DP-1-0=${scale_factor};\
 DP-1-1=${scale_factor};\
 DP-1-2=${scale_factor};\
 "
+  # ========================================
 
+  # ========================================
   # Font DPI
+  # ========================================
   "kwriteconfig${KDE_VERSION}" --file kcmfonts --group General --key forceFontDPI "${font_dpi}"
   if [ -f "${HOME}/.config/xsettingsd/xsettingsd.conf" ]; then
     sed -Ei "s/(^Gtk\\/UnscaledDPI )[0-9]+\$/\\1${font_dpi_gtk}/" "${HOME}/.config/xsettingsd/xsettingsd.conf"
@@ -87,27 +92,41 @@ DP-1-2=${scale_factor};\
   if [ -f "${HOME}/.config/gtk-4.0/settings.ini" ]; then
     sed -Ei "s/(^gtk-xft-dpi=)[0-9]+\$/\\1${font_dpi_gtk}/" "${HOME}/.config/gtk-4.0/settings.ini"
   fi
+  # ========================================
 
+  # ========================================
   # Cursor size
+  # ========================================
+  "kwriteconfig${KDE_VERSION}" --file kcminputrc --group Mouse --key cursorSize "${cursor_size}"
   if [ -f "${HOME}/.config/xsettingsd/xsettingsd.conf" ]; then
     sed -Ei "s/(^Gtk\\/CursorThemeSize )[0-9]+\$/\\1${cursor_size}/" "${HOME}/.config/xsettingsd/xsettingsd.conf"
   fi
+  if [ -f "${HOME}/.gtkrc-2.0" ]; then
+    sed -Ei "s/(^gtk-cursor-theme-size=)[0-9]+\$/\\1${cursor_size}/" "${HOME}/.gtkrc-2.0"
+  fi
+  if [ -f "${HOME}/.config/gtk-3.0/settings.ini" ]; then
+    sed -Ei "s/(^gtk-cursor-theme-size=)[0-9]+\$/\\1${cursor_size}/" "${HOME}/.config/gtk-3.0/settings.ini"
+  fi
+  if [ -f "${HOME}/.config/gtk-4.0/settings.ini" ]; then
+    sed -Ei "s/(^gtk-cursor-theme-size=)[0-9]+\$/\\1${cursor_size}/" "${HOME}/.config/gtk-4.0/settings.ini"
+  fi
+  # ========================================
 
+  # ========================================
   # VirtualBox VMs scale (VirtualBox must be shut down before)
+  # ========================================
   if [ -f "${HOME}/.config/VirtualBox/VirtualBox.xml" ]; then
     sed -Ei "s/(^.*?<ExtraDataItem name=\"GUI\\/ScaleFactor\" value=\").*?(\"\\/>\$)/\1${scale_factor}\2/" "${HOME}/.config/VirtualBox/VirtualBox.xml"
   fi
+  # ========================================
 
+  # ========================================
   # Remmina clients scale
+  # ========================================
   if [ -f "${HOME}/.config/remmina/remmina.pref" ]; then
     sed -Ei "s/(^rdp_desktopScaleFactor=)[0-9]+\$/\\1${percents}/" "${HOME}/.config/remmina/remmina.pref"
   fi
-
-  # Restart UI
-  {
-    kwin --replace &
-    plasmashell --replace &
-  } &> /dev/null
+  # ========================================
 
   echo "Success!"
   echo "Now you need to relogin to your account to apply changes!"
