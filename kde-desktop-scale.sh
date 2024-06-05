@@ -28,10 +28,10 @@ function main() {
     echo "Usage: kde-desktop-scale <percents>
 Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
     return 1
-  elif [ "${percents}" -lt "${MIN_PERCENTS}" ]; then
+  elif [ "$(echo "${percents}" "${MIN_PERCENTS}" | awk '{ print ($1 < $2 ? 1 : 0); }')" = "1" ]; then
     echo "Percents must be greater or equal to ${MIN_PERCENTS}!" >&2
     return 1
-  elif [ "${percents}" -gt "${MAX_PERCENTS}" ]; then
+  elif [ "$(echo "${percents}" "${MAX_PERCENTS}" | awk '{ print ($1 > $2 ? 1 : 0); }')" = "1" ]; then
     echo "Percents must be lower or equal to ${MAX_PERCENTS}!" >&2
     return 1
   fi
@@ -54,7 +54,7 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
   # Display scale
   "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScaleFactor "${scale_factor}"
   # RDP, VNC and X11 screens
-  "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreenScaleFactors "\
+  "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreenScaleFactors " \
 rdp0=${scale_factor};\
 rdp1=${scale_factor};\
 rdp2=${scale_factor};\
