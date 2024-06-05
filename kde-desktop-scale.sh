@@ -53,8 +53,28 @@ Where percents is from ${MIN_PERCENTS} to ${MAX_PERCENTS} (%)." >&2
 
   # Display scale
   "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScaleFactor "${scale_factor}"
-  # For RDP and VNC connections
-  "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreenScaleFactors "rdp0=${scale_factor};rdp1=${scale_factor};rdp2=${scale_factor};rdp3=${scale_factor};VNC-0=${scale_factor};VNC-1=${scale_factor};VNC-2=${scale_factor};VNC-3=${scale_factor};"
+  # RDP, VNC and X11 screens
+  "kwriteconfig${KDE_VERSION}" --file kdeglobals --group KScreen --key ScreenScaleFactors "\
+rdp0=${scale_factor};\
+rdp1=${scale_factor};\
+rdp2=${scale_factor};\
+rdp3=${scale_factor};\
+\
+VNC-0=${scale_factor};\
+VNC-1=${scale_factor};\
+VNC-2=${scale_factor};\
+VNC-3=${scale_factor};\
+\
+eDP-2=${scale_factor};\
+DP-2=${scale_factor};\
+DP-3=${scale_factor};\
+DP-4=${scale_factor};\
+DP-5=${scale_factor};\
+HDMI-1-0=${scale_factor};\
+DP-1-0=${scale_factor};\
+DP-1-1=${scale_factor};\
+DP-1-2=${scale_factor};\
+"
 
   # Font DPI
   "kwriteconfig${KDE_VERSION}" --file kcmfonts --group General --key forceFontDPI "${font_dpi}"
