@@ -77,6 +77,11 @@ DP-1-0=${scale_factor};\
 DP-1-1=${scale_factor};\
 DP-1-2=${scale_factor};\
 "
+
+  "kwriteconfig${KDE_VERSION}" --file kwinrc --group Xwayland --key Scale "${scale_factor}"
+  if [ -f "${HOME}/.config/kwinoutputconfig.json" ]; then
+    sed -Ei "s/(^\s+\"scale\": ).+(,)?\$/\\1${scale_factor}\\2/" "${HOME}/.config/kwinoutputconfig.json"
+  fi
   # ========================================
 
   # ========================================
