@@ -1,5 +1,14 @@
 # kde-desktop-scale
 
+2024-08-26: I am quitting the development of this script because of the following points:
+
+- I failed to achieve scaling QEMU virtual machines;
+- I failed to achieve scaling JetBrains products (or it is often very unstable);
+- For new screens, you have to update the script by adding them to it;
+- It is likely that many other applications will also need to be added to the script;
+- I learned about `xrandr` and now I can achieve the desired refresh rate of my screen, even if I lose resolution;
+- Perhaps I will leave KDE in the future because of its heaviness and the presence of a large number of bugs and crashes.
+
 ## 1. Description
 
 Bash script to scale KDE UI on X11. This script scales:
